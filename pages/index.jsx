@@ -1,9 +1,9 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import HeadComponent from "../components/Head";
-import { airDrop } from "./airdrop/airdrop";
-import { refreshBalance } from "./balance/getBalance";
-import {generateWallet} from "./wallet/generateWallet"
-import { importWallet } from "./wallet/importWallet";
+import { airDrop } from "../contracts/airdrop/airdrop";
+import { refreshBalance } from "../contracts/balance/getBalance";
+import {generateWallet} from "../contracts/wallet/generateWallet"
+import { importWallet } from "../contracts/wallet/importWallet";
 
 export default function Home() {
   const [mnemonic, setMnemonic] = useState(null)

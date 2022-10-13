@@ -1,5 +1,5 @@
-import { Connection, LAMPORTS_PER_SOL } from "@solana/web3.js";
-import { connectSolana } from "../connect/connect"
+import { LAMPORTS_PER_SOL } from "@solana/web3.js";
+import { connectSolana } from "../connect/connect";
 
 export const refreshBalance = async (account, setBalance) => {
   const conn = connectSolana();
