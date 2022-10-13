@@ -1,10 +1,17 @@
 import React, {useEffect, useState} from "react";
 import HeadComponent from "../components/Head";
 import {generateWallet} from "./wallet/generateWallet"
+import { importWallet } from "./wallet/importWallet";
 
 export default function Home() {
   const [mnemonic, setMnemonic] = useState(null)
   const [account, setAccount] = useState(null)
+
+  const handleImport = (e) => {
+    e.preventDefault()
+    const importedAccount = importWallet(e.target[0].value.trim().toLowerCase())
+    setAccount(importedAccount)
+  }
 
   return (
     <div>
@@ -52,6 +59,16 @@ export default function Home() {
           <h2 className="p-2 border-dotted border-l-4 border-l-indigo-400">
             STEP2: 既存のウォレットをインポートする
           </h2>
+          <form onSubmit={(e) => handleImport(e)} className="py-6">
+            <div className="flex items-center border-b border-indigo-500 py-2">
+              <input type="text" className="w-full text-gray-700 mr-3 p-1 focus:outline-none" placeholder="シークレットリカバリーフレーズ"/>
+              <input
+                  type="submit"
+                  className="p-2 text-white bg-indigo-500 focus:ring focus:ring-indigo-300 rounded-lg cursor-pointer"
+                  value="インポート"
+                />
+            </div>
+          </form>
         </div>
 
         <hr className="my-6" />
