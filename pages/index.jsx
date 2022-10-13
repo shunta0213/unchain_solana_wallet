@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import HeadComponent from "../components/Head";
 import { airDrop } from "../contracts/airdrop/airdrop";
 import { refreshBalance } from "../contracts/balance/getBalance";
+import { transfer } from "../contracts/transfer/transfer";
 import {generateWallet} from "../contracts/wallet/generateWallet"
 import { importWallet } from "../contracts/wallet/importWallet";
 
@@ -9,6 +10,7 @@ export default function Home() {
   const [mnemonic, setMnemonic] = useState(null)
   const [account, setAccount] = useState(null)
   const [balance, setBalance] = useState(null)
+  const [transactionSig, setTransactionSig] = useState("");
 
   const handleImport = (e) => {
     e.preventDefault()
@@ -34,7 +36,6 @@ export default function Home() {
             My Wallet
           </h3>
           {account && <div className="my-6 text-indigo-600 font-bold">Address: {account.publicKey.toString()}</div>}
-          {account && <button className="p-2 my-6 text-white bg-indigo-500 focus:ring focus:ring-indigo-300 rounded-lg cursor-pointer" onClick={() => airDrop(account, setBalance)}>Request Airdrop</button>}
           {typeof balance === "number" && <div className="my-6 font-bold">💰 残高: {balance} SOL</div>}
         </div>
 
@@ -97,15 +98,44 @@ export default function Home() {
           <h2 className="p-2 border-dotted border-l-4 border-l-indigo-400">
             STEP4: エアドロップ機能を実装する
           </h2>
+          {account && <button className="p-2 my-6 text-white bg-indigo-500 focus:ring focus:ring-indigo-300 rounded-lg cursor-pointer" onClick={() => airDrop(account, setBalance)}>Request Airdrop</button>}
         </div>
 
         <hr className="my-6" />
 
         <div>
-          <h2 className="p-2 border-dotted border-l-4 border-l-indigo-400">
-            STEP5: 送金機能を実装する
-          </h2>
+  <h2 className="p-2 border-dotted border-l-4 border-l-indigo-400">STEP5: 送金機能を実装する</h2>
+  {account && (
+    <>
+      <form onSubmit={(e) => transfer(e.target[0].value, account, setTransactionSig, setBalance)} className="my-6">
+        <div className="flex items-center border-b border-indigo-500 py-2">
+          <input
+            type="text"
+            className="w-full text-gray-700 mr-3 p-1 focus:outline-none"
+            placeholder="送金先のウォレットアドレス"
+          />
+          <input
+            type="submit"
+            className="p-2 text-white bg-indigo-500 focus:ring focus:ring-indigo-300 rounded-lg cursor-pointer"
+            value="送金"
+          />
         </div>
+      </form>
+      {transactionSig && (
+        <>
+          <span className="text-red-600">送金が完了しました!</span>
+          <a
+            href={`https://explorer.solana.com/tx/${transactionSig}?cluster=${NETWORK}`}
+            className="border-double border-b-4 border-b-indigo-600"
+            target='_blank'
+          >
+            Solana Block Explorer でトランザクションを確認する
+          </a>
+        </>
+      )}
+    </>
+  )}
+</div>
       </div>
     </div>
   );
