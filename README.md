@@ -1,3 +1,7 @@
+## For studying wallet
+
+The course uses js............wtf
+
 ![](https://i.imgur.com/RYCtLwn.png)
 
 # 👛 Create a Solana Wallet!
